@@ -1,0 +1,142 @@
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#container {
+  position: relative;
+}
+
+#header {
+  width: 100%;
+  background-color: #fff9de;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#header div {
+  color: black;
+  background-color: #cfcfcf;
+  border-radius: 999px;
+  padding: 10px;
+  margin: 10px 30px 10px 0px;
+}
+
+#leftmenu {
+  background-color: #0f1b07;
+  position: fixed;
+  left: 0;
+  top: 0;
+  color: #ffff;
+  padding: 10px;
+  height: 100vh;
+}
+
+#card_home,
+#card_product,
+#card_order,
+#card_customer,
+#card_revenue {
+  img {
+    height: 35px;
+    width: 35px;
+    margin: 10px;
+  }
+}
+
+#trangchu,
+#sanpham,
+#donhang,
+#khachhang,
+#doanhthu {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+.content_menu {
+  padding: 0px 50px 0 25px;
+  font-size: 20px;
+  display: none;
+}
+
+#leftmenu button {
+  background-color: #0f1b07;
+  color: #ffff;
+  margin-left: 10px;
+  border: none;
+}
+
+#leftmenu:hover .content_menu {
+  display: block;
+}
+
+#Content1 {
+  /* position: absolute;
+  left: 150px;
+  top: 70px; */
+
+  /* width: 100vw; */
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; */
+  position: relative;
+}
+
+#table1 {
+  background-color: rgba(0, 0, 0, 0.05);
+  border: solid 1px black;
+  margin-left: 150px;
+  td {
+    /* padding: 15px 0px 15px 10px; */
+    padding: 10px;
+    border: solid 1px;
+    width: 150px;
+  }
+  th {
+    background-color: #0f1b0779;
+    border: solid 1px;
+  }
+  img {
+    width: 40%;
+    height: 40%;
+    /* object-fit: contain; */
+    padding: 0px;
+    margin: auto 50px;
+  }
+  /* margin-bottom: 20px; */
+}
+
+#h1 {
+  text-align: center;
+  width: 80%;
+  /* margin-bottom: 50px; */
+  font-size: 48px;
+}
+
+#pagination {
+  /* display: flex;
+  flex-direction: row; */
+  text-align: center;
+  width: 70%;
+  li {
+    border: solid 1px black;
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+  }
+  li:hover {
+    color: #ffff;
+    background-color: #0f1b07;
+  }
+}
+
+#timkiem {
+  height: 200px;
+  width: 100px;
+  background-color: yellow;
+  position: absolute;
+  right: 100px;
+  top: 100px;
+}

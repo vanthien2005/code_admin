@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" />
+    <link rel="stylesheet" href="admin.css" />
+    <title>Admin</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        <div>Hai Tran</div>
+      </div>
+      <div id="leftmenu">
+        <div id="trangchu">
+          <div id="card_home">
+            <img src="./img_admin/home.png" alt="" />
+          </div>
+          <button class="content_menu" onclick="gohome()">Trang chủ</button>
+        </div>
+        <div id="sanpham">
+          <div id="card_product">
+            <img src="./img_admin/product.png" alt="" />
+          </div>
+          <button class="content_menu" onclick="xuatDS_SP(1)">Sản phẩm</button>
+        </div>
+        <div id="donhang">
+          <div id="card_order">
+            <img src="./img_admin/order.png" alt="" />
+          </div>
+          <button class="content_menu" onclick="xuatDS_DH()">Đơn hàng</button>
+        </div>
+        <div id="khachhang">
+          <div id="card_customer">
+            <img src="./img_admin/customer.png" alt="" />
+          </div>
+          <button class="content_menu" onclick="xuatDS_KH()">Khách hàng</button>
+        </div>
+        <div id="doanhthu">
+          <div id="card_revenue">
+            <img src="./img_admin/revenue.png" alt="" />
+          </div>
+          <button class="content_menu" onclick="xuatDS_DT()">Doanh thu</button>
+        </div>
+      </div>
+      <div id="Content1">
+        <div id="Mid_content1">
+          <h1 id="h1"></h1>
+          <table id="table1"></table>
+          <ul id="pagination"></ul>
+        </div>
+        <div id="timkiem"></div>
+      </div>
+      <div id="Content2"></div>
+      <div id="Content3"></div>
+      <div id="Content4"></div>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
