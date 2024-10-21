@@ -79,6 +79,7 @@
 
 ////////////////////////////////////////////////////////CÁC HÀM THỰC THI/////////////////////////////////////////////////
 const ds_sp = JSON.parse(localStorage.getItem("DS_SP"));
+const ds_sp1 = JSON.parse(localStorage.getItem("DS_SP"));
 console.log(ds_sp);
 
 //Chỉnh lại format giá tiền
@@ -112,7 +113,7 @@ let totalPage; //Tổng số trang
 let perSP = []; //Mảng chứa các sp trên 1 trang
 
 //Danh sách trang
-let visited = false; //Kiểm tra đã vào hàm xuatDS_Page chưa
+var visited = false; //Kiểm tra đã vào hàm xuatDS_Page chưa
 function xuatDS_Page() {
   totalPage = ds_sp.length / perPage;
   if (visited === false) {
@@ -170,6 +171,8 @@ function xuatDS_SP(num) {
   elm2.style.display = "none";
   elm3.style.display = "none";
   elm4.style.display = "none";
+
+  tim_kiem_SP();
 }
 
 //Hàm xoá SP
@@ -180,3 +183,85 @@ function xoa_SP(num) {
 }
 
 ///////////////////////////////////////////////////////////////CODE ĐỂ TÌM KIẾM/////////////////////////////////////////////////////
+var visited1 = false;
+function tim_kiem_SP() {
+  if (visited1 == true) return;
+
+  visited1 = true;
+  let elm = document.querySelector("#timkiem");
+  elm.style.backgroundColor = "gray";
+  elm.innerHTML += `
+  <h2 align="center">Tìm kiếm sản phẩm</h2>
+  <div id="tenSP">
+    <label for="ten_SP">Lọc theo tên</label> <br>
+    <input id="ten_SP" name="ten_SP" type="text" placeholder="Nhập vào sản phẩm">
+  </div>
+  
+  <div id="loaiSP">
+    <label for="phanloai">Loại sản phẩm</label> <br>
+    <select id="phanloai" name="phanloai">
+      <option value="Chọn">Chọn</option>
+      <option value="Giày">Giày</option>
+      <option value="Quần áo">Quần áo</option>
+      <option value="Phụ kiện">Phụ kiện</option>
+    </select>
+  </div>
+
+  <div id="thuonghieu">
+    <label for="thuong_hieu">Thương hiệu</label> <br>
+    <select id="thuong_hieu" name="thuong_hieu">
+      <option value="Chọn">Chọn</option>
+      <option value="Adidas">Adidas</option>
+      <option value="Nike">Nike</option>
+      <option value="Puma">Puma</option>
+    </select>
+  </div>
+
+  <div id="giaSP">
+    <label for="gia">Lọc theo giá</label> <br>
+    <select id="gia1" name="gia" style="margin-right:10px">
+      <option value="0">0</option>
+      <option value="1.000.000">1.000.000</option>
+      <option value="2.000.000">2.000.000</option>
+      <option value="3.000.000">3.000.000</option>
+      <option value="4.000.000">4.000.000</option>
+      <option value="5.000.000">5.000.000</option>
+    </select> 
+    
+    <select id="gia2" name="gia">
+      <option value="0">0</option>
+      <option value="1.000.000">1.000.000</option>
+      <option value="2.000.000">2.000.000</option>
+      <option value="3.000.000">3.000.000</option>
+      <option value="4.000.000">4.000.000</option>
+      <option value="5.000.000">5.000.000</option>
+    </select> 
+  </div>
+
+  <input type="submit" name="submit" value="Tìm kiếm" style="padding:5px;" onclick="find_sp()">
+  `;
+}
+
+function find_sp() {
+  let locten = document.querySelector("#ten_SP");
+  console.log(locten.value);
+  let locloai = document.querySelector("#phanloai");
+  console.log(locloai.value);
+  let locgia1 = document.querySelector("#gia1");
+  console.log(locgia1.value);
+  let locgia2 = document.querySelector("#gia2");
+  console.log(locgia2.value);
+  let locthuonghieu = document.querySelector("#thuong_hieu");
+  console.log(locthuonghieu.value);
+  let a = locloai.value,
+    b = locloai.value,
+    e = locthuonghieu.value,
+    c = locgia1.value,
+    d = locgia2.value;
+  const search1 = [];
+
+  search1 = ds_sp.filter((value) => {
+    return value.ten.toLowerCase().includes(a.toLowerCase());
+  });
+  console.log(ds_sp);
+}

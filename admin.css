@@ -31,6 +31,7 @@ body {
   color: #ffff;
   padding: 10px;
   height: 100vh;
+  z-index: 99;
 }
 
 #card_home,
@@ -82,6 +83,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap; */
   position: relative;
+  z-index: 0;
 }
 
 #table1 {
@@ -133,10 +135,16 @@ body {
 }
 
 #timkiem {
-  height: 200px;
-  width: 100px;
-  background-color: yellow;
+  /* height: 500px;
+    width: 300px; */
   position: absolute;
   right: 100px;
-  top: 100px;
+  top: 90px;
+  padding: 10px 30px;
+  input,
+  select {
+    margin: 10px 0;
+  }
+  z-index: 1;
+  /* display: none; */
 }
