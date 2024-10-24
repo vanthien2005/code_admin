@@ -78,9 +78,15 @@
 // const ds_sp1 = JSON.parse(localStorage.getItem("DS_SP"));
 
 ////////////////////////////////////////////////////////CÁC HÀM THỰC THI/////////////////////////////////////////////////
-const ds_sp = JSON.parse(localStorage.getItem("DS_SP"));
-const ds_sp1 = JSON.parse(localStorage.getItem("DS_SP"));
-console.log(ds_sp);
+const SP = JSON.parse(localStorage.getItem("DS_SP"));
+var ds_sp = SP;
+// const ds_sp1 = JSON.parse(localStorage.getItem("DS_SP"));
+// console.log(ds_sp);
+
+let content1 = document.querySelector("#Content1");
+let content2 = document.querySelector("#Content2");
+let content3 = document.querySelector("#Content3");
+let content4 = document.querySelector("#Content4");
 
 //Chỉnh lại format giá tiền
 function formatCash(str) {
@@ -94,14 +100,10 @@ function formatCash(str) {
 
 //Hàm trở về home
 function gohome() {
-  let elm1 = document.querySelector("#Content1");
-  let elm2 = document.querySelector("#Content2");
-  let elm3 = document.querySelector("#Content3");
-  let elm4 = document.querySelector("#Content4");
-  elm1.style.display = "none";
-  elm2.style.display = "none";
-  elm3.style.display = "none";
-  elm4.style.display = "none";
+  content1.style.display = "none";
+  content2.style.display = "none";
+  content3.style.display = "none";
+  content4.style.display = "none";
 }
 
 ////////////////////////////////////////////CODE ĐỂ PHÂN TRANG/////////////////////////////////////////////////////////
@@ -112,29 +114,33 @@ let perPage = 5; //Số sản phẩm trên trang
 let totalPage; //Tổng số trang
 let perSP = []; //Mảng chứa các sp trên 1 trang
 
+function xuatDSSP() {
+  handlePage(1);
+  renderPage();
+}
+
 //Danh sách trang
-var visited = false; //Kiểm tra đã vào hàm xuatDS_Page chưa
-function xuatDS_Page() {
-  totalPage = ds_sp.length / perPage;
-  if (visited === false) {
-    for (let i = 1; i <= totalPage; i++) {
-      document.querySelector(
-        "#pagination"
-      ).innerHTML += `<li onclick="xuatDS_SP(${i})">${i}</li>`;
-    }
-    visited = true;
+function renderPage() {
+  totalPage = Math.ceil(ds_sp.length / perPage);
+  let page = document.querySelector("#pagination");
+  page.innerHTML = "";
+  for (let i = 1; i <= totalPage; i++) {
+    page.innerHTML += `<li onclick="handlePage(${i})">${i}</li>`;
   }
 }
 
-//Hàm xuất danh sách sản phẩm
-function xuatDS_SP(num) {
-  xuatDS_Page();
+function handlePage(num) {
   currentPage = num;
   //Cắt SP từ mảng ds_sp
   perSP = ds_sp.slice(
     (currentPage - 1) * perPage,
     (currentPage - 1) * perPage + perPage
   );
+  xuatSP();
+}
+
+//Hàm xuất danh sách sản phẩm
+function xuatSP() {
   let s1 = `Danh sách sản phẩm`;
   document.querySelector("#h1").innerHTML = s1;
   let s = `<tr>
@@ -145,6 +151,8 @@ function xuatDS_SP(num) {
     <th align="center">Thương hiệu</th>
     <th align="center">Tuỳ chỉnh</th>
     </tr>`;
+
+  let cnt = 0;
   perSP.forEach((i) => {
     let tien = formatCash(i.gia.toString()) + "đ";
     s += `<tr>
@@ -154,42 +162,37 @@ function xuatDS_SP(num) {
     <td align="center">${tien}</td>
     <td align="center">${i.thuonghieu}</td>
     <td align="center">
-    <button id="xoa" onclick="xoa_SP(${ds_sp.indexOf(i)})">Xoá</button>
+    <button id="xoa" onclick="xoaSP(${cnt})">Xoá</button>
     <button id="chinh_sua" onclick="sua_SP()">Sửa</button>
     </tr>`;
+    cnt++;
   });
 
   let e = document.querySelector("#table1");
   e.innerHTML = s;
 
   //Để display của các content khác là none
-  let elm1 = document.querySelector("#Content1");
-  let elm2 = document.querySelector("#Content2");
-  let elm3 = document.querySelector("#Content3");
-  let elm4 = document.querySelector("#Content4");
-  elm1.style.display = "block";
-  elm2.style.display = "none";
-  elm3.style.display = "none";
-  elm4.style.display = "none";
+  content1.style.display = "block";
+  content2.style.display = "none";
+  content3.style.display = "none";
+  content4.style.display = "none";
 
-  tim_kiem_SP();
+  form_tim_kiem();
 }
 
 //Hàm xoá SP
-function xoa_SP(num) {
-  // prompt("Bạn có muốn xoá không");
-  ds_sp.splice(1, num);
-  // xuatDS_SP(Math.ceil(num / perPage));
+function xoaSP(num) {
+  ds_sp = SP;
+  ds_sp = ds_sp.splice(1, num);
+  xuatDSSP();
 }
 
 ///////////////////////////////////////////////////////////////CODE ĐỂ TÌM KIẾM/////////////////////////////////////////////////////
-var visited1 = false;
-function tim_kiem_SP() {
-  if (visited1 == true) return;
 
-  visited1 = true;
+function form_tim_kiem() {
   let elm = document.querySelector("#timkiem");
   elm.style.backgroundColor = "gray";
+  elm.innerHTML = "";
   elm.innerHTML += `
   <h2 align="center">Tìm kiếm sản phẩm</h2>
   <div id="tenSP">
@@ -238,30 +241,22 @@ function tim_kiem_SP() {
     </select> 
   </div>
 
-  <input type="submit" name="submit" value="Tìm kiếm" style="padding:5px;" onclick="find_sp()">
+  <input type="submit" name="submit" value="Tìm kiếm" style="padding:5px;" onclick="timKiemSP()">
   `;
 }
 
-function find_sp() {
-  let locten = document.querySelector("#ten_SP");
-  console.log(locten.value);
-  let locloai = document.querySelector("#phanloai");
-  console.log(locloai.value);
-  let locgia1 = document.querySelector("#gia1");
-  console.log(locgia1.value);
-  let locgia2 = document.querySelector("#gia2");
-  console.log(locgia2.value);
-  let locthuonghieu = document.querySelector("#thuong_hieu");
-  console.log(locthuonghieu.value);
-  let a = locloai.value,
-    b = locloai.value,
-    e = locthuonghieu.value,
-    c = locgia1.value,
-    d = locgia2.value;
-  const search1 = [];
+function timKiemSP() {
+  ds_sp = SP;
+  let tenSP = document.querySelector("#ten_SP").value;
+  let loaiSP = document.querySelector("#phanloai").value;
+  let gia1 = document.querySelector("#gia1").value;
+  let gia2 = document.querySelector("#gia2").value;
+  let thuonghieu = document.querySelector("#thuong_hieu").value;
 
-  search1 = ds_sp.filter((value) => {
-    return value.ten.toLowerCase().includes(a.toLowerCase());
+  ds_sp = ds_sp.filter((value) => {
+    return value.ten.toLowerCase().includes(tenSP.toLowerCase());
   });
+  console.log(tenSP + " " + loaiSP + " " + thuonghieu);
   console.log(ds_sp);
+  xuatDSSP();
 }
