@@ -299,3 +299,158 @@ function timKiemSP() {
   console.log(ds_sp);
   xuatDSSP();
 }
+///////////////   code khach hang ///////////////////
+const DS_KH = [
+  {
+    ms_kh: "KH_001",
+    hvt: "Nguyễn Văn A",
+    tdn: "nva123",
+    ndk: "22/08/2024",
+  },
+  {
+    ms_kh: "KH_002",
+    hvt: "Nguyễn Văn B",
+    tdn: "nvb123",
+    ndk: "23/08/2024",
+  },
+  {
+    ms_kh: "KH_003",
+    hvt: "Nguyễn Văn C",
+    tdn: "nvc123",
+    ndk: "24/08/2024",
+  },
+  {
+    ms_kh: "KH_004",
+    hvt: "Trần Văn A",
+    tdn: "tva123",
+    ndk: "26/08/2024",
+  },
+  {
+    ms_kh: "KH_005",
+    hvt: "Trần Văn B",
+    tdn: "tvb123",
+    ndk: "27/08/2024",
+  },
+  {
+    ms_kh: "KH_006",
+    hvt: "Trương Văn A",
+    tdn: "tva1234",
+    ndk: "30/08/2024",
+  },
+];
+
+localStorage.setItem("DS_KH", JSON.stringify(DS_KH));
+//const ds_KH = JSON.parse(localStorage.getItem("DS_KH"));
+const ds_KH = JSON.parse(localStorage.getItem("DS_KH"));
+
+const KH = JSON.parse(localStorage.getItem("DS_KH"));
+var ds_kh1 = KH;
+
+let currentPage1 = 1; //Thứ tự của trang
+let perPage1 = 5; //Số sản phẩm trên trang
+let totalPage1; //Tổng số trang
+let perKH = [];
+
+function xuatDSKH() {
+  handlePage1(1);
+  renderPage1();
+}
+function renderPage1() {
+  totalPage1 = Math.ceil(ds_kh1.length / perPage1);
+  let page1 = document.querySelector("#pagination");
+  page1.innerHTML = "";
+  for (let i = 1; i <= totalPage1; i++) {
+    page1.innerHTML += `<li onclick="handlePage1(${i})">${i}</li>`;
+  }
+}
+function handlePage1(num) {
+  currentPage1 = num;
+  //Cắt SP từ mảng ds_sp
+  perKH = ds_kh1.slice(
+    (currentPage1 - 1) * perPage1,
+    (currentPage1 - 1) * perPage1 + perPage1
+  );
+  xuatKH();
+}
+var kt = false;
+function xuatKH() {
+  document.querySelector("#h1").innerHTML = "Danh Sách Khách Hàng";
+  let s1 = `<tr>
+    <th align="center">ID</th>
+    <th align="center">Họ Và Tên</th>
+    <th align="center">Tên Đăng Nhập</th>
+    <th align="center">Ngày Đăng Kí</th>
+    <th align="center" >Xóa</th>
+    </tr>`;
+  perKH.forEach((i) => {
+    s1 += `<tr>
+    <td align="center">${i.ms_kh}</td>
+    <td align="center">${i.hvt}</td>
+    <td align="center">${i.tdn}</td>
+    <td align="center">${i.ndk}</td>
+    <td align="center">
+    <button id="xoa" onclick="xoaKH(${ds_kh1.indexOf(i)})" >Xoá</button>
+    </tr>`;
+  });
+  let e1 = document.querySelector("#table1");
+  console.log(e1);
+  e1.innerHTML = s1;
+
+  //Để display của các content khác là none
+  content1.style.display = "block";
+  content2.style.display = "none";
+  content3.style.display = "none";
+  content4.style.display = "none";
+  if (kt == false) {
+    timkiem_KH();
+    kt = true;
+  }
+}
+
+function timkiem_KH() {
+  let a = document.getElementById("timkiem");
+  a.innerHTML += ` <form action="" id="from_tk">
+            <h1 id="head">Tìm kiếm khách hàng</h1>
+              <input
+                type="text"
+                id="input"
+                oninput="tim()"
+                placeholder="Nhập tên khách hàng"
+              />            
+            <input type="text" id="input1" oninput="tim()" placeholder="Nhập tên đăng nhập" />
+            <div id="buttom">
+              <button type="reset" class="sub" >Xóa</button>
+              <button type="button" class="sub" onclick="tim()">Tìm</button>
+            </div>
+          </form>`;
+}
+
+//    code tìm kiếm khách hàng ///////////////////////////////////////
+function tim() {
+  let a = document.getElementById("input").value;
+  let b = document.getElementById("input1").value;
+  if (a !== " ") {
+    ds_kh1 = ds_kh1.filter((value) => {
+      return value.hvt.toUpperCase().includes(a.toUpperCase());
+    });
+  }
+  if (b !== " ") {
+    ds_kh1 = ds_kh1.filter((value) => {
+      return value.tdn.toUpperCase().includes(b.toUpperCase());
+    });
+  }
+  xuatDSKH();
+}
+
+////////    xóa khách hàng  //////////////////////////////
+function xoaKH(num) {
+  let k1 = num;
+  let dskh = JSON.parse(localStorage.getItem("DS_KH"));
+  if (confirm("Bạn có muốn xoá sản phẩm không ?")) {
+    dskh.splice(num, 1); //Xoá trên localStorage
+    ds_kh1.splice(num, 1); //Xoá trên màn hình hiển thị
+  }
+  localStorage.setItem("DS_SP", JSON.stringify(dskh));
+  handlePage1(Math.ceil(k1 / perPage1));
+  renderPage1();
+}
