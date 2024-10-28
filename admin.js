@@ -347,7 +347,7 @@ const KH = JSON.parse(localStorage.getItem("DS_KH"));
 var ds_kh1 = KH;
 
 let currentPage1 = 1; //Thứ tự của trang
-let perPage1 = 5; //Số sản phẩm trên trang
+let perPage1 = 5; //Số khách hàng trên trang
 let totalPage1; //Tổng số trang
 let perKH = [];
 
@@ -365,7 +365,7 @@ function renderPage1() {
 }
 function handlePage1(num) {
   currentPage1 = num;
-  //Cắt SP từ mảng ds_sp
+  //Cắt KH từ mảng ds_kh1
   perKH = ds_kh1.slice(
     (currentPage1 - 1) * perPage1,
     (currentPage1 - 1) * perPage1 + perPage1
