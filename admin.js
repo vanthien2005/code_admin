@@ -131,6 +131,7 @@ function xuatDSSP() {
 
 //Danh sách trang
 function renderPage() {
+  document.querySelector("#pagination").style.display = "block";
   totalPage = Math.ceil(ds_sp.length / perPage);
   let page = document.querySelector("#pagination");
   page.innerHTML = "";
@@ -181,6 +182,13 @@ function xuatSP() {
   e.innerHTML = s;
 
   //Để display của các content khác là none
+  document.getElementById("tongthu").style.display = "none";
+  document.getElementById("banchay").style.display = "none";
+  document.getElementById("bancham").style.display = "none";
+  document.getElementById("table2").style.display = "none";
+  document.getElementById("h11").style.display = "none";
+  document.getElementById("topkh").style.display = "none";
+
   content1.style.display = "block";
   content2.style.display = "none";
   content3.style.display = "none";
@@ -356,6 +364,7 @@ function xuatDSKH() {
   renderPage1();
 }
 function renderPage1() {
+  document.getElementById("pagination").style.display = "block";
   totalPage1 = Math.ceil(ds_kh1.length / perPage1);
   let page1 = document.querySelector("#pagination");
   page1.innerHTML = "";
@@ -372,10 +381,13 @@ function handlePage1(num) {
   );
   xuatKH();
 }
-var kt = false;
+
 function xuatKH() {
+  document.getElementById("timkiem").style.display = "block";
+
   document.querySelector("#h1").innerHTML = "Danh Sách Khách Hàng";
-  let s1 = `<tr>
+  let s1 = "";
+  s1 = `<tr>
     <th align="center">ID</th>
     <th align="center">Họ Và Tên</th>
     <th align="center">Tên Đăng Nhập</th>
@@ -397,29 +409,38 @@ function xuatKH() {
   e1.innerHTML = s1;
 
   //Để display của các content khác là none
+  document.getElementById("tongthu").style.display = "none";
+  document.getElementById("banchay").style.display = "none";
+  document.getElementById("bancham").style.display = "none";
+  document.getElementById("table2").style.display = "none";
+  document.getElementById("h11").style.display = "none";
+  document.getElementById("topkh").style.display = "none";
+
   content1.style.display = "block";
   content2.style.display = "none";
   content3.style.display = "none";
   content4.style.display = "none";
-  if (kt == false) {
-    timkiem_KH();
-    kt = true;
-  }
+
+  timkiem_KH();
 }
 
 function timkiem_KH() {
-  let a = document.getElementById("timkiem");
+  let a = document.querySelector("#timkiem");
+  a.innerHTML = "";
   a.innerHTML += ` <form action="" id="from_tk">
             <h1 id="head">Tìm kiếm khách hàng</h1>
+            
+              <i class="fa-solid fa-magnifying-glass"></i>
               <input
                 type="text"
+                oninput = "tim()"
                 id="input"
-                oninput="tim()"
                 placeholder="Nhập tên khách hàng"
-              />            
-            <input type="text" id="input1" oninput="tim()" placeholder="Nhập tên đăng nhập" />
+              />
+            
+            <input type="text" id="input1"  placeholder="Nhập tên đăng nhập" />
             <div id="buttom">
-              <button type="reset" class="sub" >Xóa</button>
+              <button type="reset" class="sub">Xóa</button>
               <button type="button" class="sub" onclick="tim()">Tìm</button>
             </div>
           </form>`;
@@ -427,14 +448,15 @@ function timkiem_KH() {
 
 //    code tìm kiếm khách hàng ///////////////////////////////////////
 function tim() {
-  let a = document.getElementById("input").value;
-  let b = document.getElementById("input1").value;
-  if (a !== " ") {
+  ds_kh1 = KH;
+  let a = document.querySelector("#input").value;
+  let b = document.querySelector("#input1").value;
+  if (a !== "") {
     ds_kh1 = ds_kh1.filter((value) => {
       return value.hvt.toUpperCase().includes(a.toUpperCase());
     });
   }
-  if (b !== " ") {
+  if (b !== "") {
     ds_kh1 = ds_kh1.filter((value) => {
       return value.tdn.toUpperCase().includes(b.toUpperCase());
     });
@@ -453,4 +475,39 @@ function xoaKH(num) {
   localStorage.setItem("DS_SP", JSON.stringify(dskh));
   handlePage1(Math.ceil(k1 / perPage1));
   renderPage1();
+}
+
+/////////  doanh thu  ////////
+function xuatDS_DT() {
+  document.getElementById("tongthu").style.display = "block";
+  document.getElementById("banchay").style.display = "block";
+  document.getElementById("bancham").style.display = "block";
+  document.getElementById("h11").style.display = "block";
+  document.getElementById("table2").style.display = "block";
+  document.getElementById("topkh").style.display = "block";
+  let h = document.getElementById("h1");
+  h.innerHTML = "Thống kê Mặt hàng";
+  let a = ` <tr>
+            <th>Mặt hàng</th>
+            <th>Số lượng bán</th>
+            <th>Tổng tiền thu</th>
+            <th>Hoá đơn</th>
+          </tr>`;
+  document.getElementById("table1").innerHTML = a;
+  document.getElementById("tongthu").innerHTML =
+    "Tổng Doanh thu các mặt hàng: ";
+  document.getElementById("banchay").innerHTML = "Sản phẩm bán chạy nhất: ";
+  document.getElementById("bancham").innerHTML = "Sản phẩm bán chậm nhất: ";
+  document.getElementById("h11").innerHTML = "Thống kê khách hàng";
+  let b = `  <tr>
+              <th>Khách hàng</th>
+              <th>Doanh thu</th>
+              <th>Hoá đơn</th>
+            </tr>`;
+  document.getElementById("table2").style.display = "inline";
+  document.getElementById("table2").innerHTML = b;
+  document.getElementById("topkh").innerHTML =
+    "Top 5 khách hàng phát sinh doanh thu nhiều nhất: ";
+  document.getElementById("timkiem").style.display = "none";
+  document.getElementById("pagination").style.display = "none";
 }
